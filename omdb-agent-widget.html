@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Movie Lookup</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 12px; background: #f7f8fa; color: #222; }
+    h3 { margin: 0 0 10px; }
+    #search { display: flex; gap: 6px; margin-bottom: 12px; }
+    #search input { flex: 1; padding: 6px 8px; border: 1px solid #ccc; border-radius: 4px; }
+    #search button { padding: 6px 12px; border: none; background: #14213d; color: #fff; border-radius: 4px; cursor: pointer; }
+    .result { background: #fff; border: 1px solid #e3e3e3; border-radius: 6px; padding: 12px; display: flex; gap: 12px; }
+    .result img { width: 90px; height: auto; border-radius: 4px; }
+    .result h4 { margin: 0 0 6px; }
+    .meta { font-size: 12px; color: #666; margin-bottom: 6px; }
+    .plot { font-size: 13px; line-height: 1.4; }
+    .empty { color: #888; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <h3>Movie Lookup</h3>
+
+  <div id="search">
+    <input id="query" type="text" placeholder="Movie title..." />
+    <button onclick="doSearch()">Search</button>
+  </div>
+
+  <div id="output"><p class="empty">Waiting for a customer message...</p></div>
+
+  <script src="https://ac-sdk.liveperson.net/agent-sdk/prod/lp-agent-sdk.min.js"></script>
+  <script>
+    var OMDB_API_KEY = "762cca6e";
+
+    function render(data) {
+      var out = document.getElementById("output");
+      if (!data || data.Response === "False") {
+        out.innerHTML = '<p class="empty">No movie found.</p>';
+        return;
+      }
+      var poster = (data.Poster && data.Poster !== "N/A") ? data.Poster : "";
+      out.innerHTML =
+        '<div class="result">' +
+          (poster ? '<img src="' + poster + '" alt="poster" />' : '') +
+          '<div>' +
+            '<h4>' + data.Title + ' (' + data.Year + ')</h4>' +
+            '<div class="meta">' + data.Genre + ' &middot; ' + data.Runtime + ' &middot; IMDb ' + data.imdbRating + '</div>' +
+            '<div class="plot">' + data.Plot + '</div>' +
+          '</div>' +
+        '</div>';
+    }
+
+    function searchMovie(title) {
+      if (!title) return;
+      document.getElementById("query").value = title;
+      var url = "https://www.omdbapi.com/?apikey=" + OMDB_API_KEY + "&t=" + encodeURIComponent(title);
+      fetch(url)
+        .then(function (r) { return r.json(); })
+        .then(function (data) { render(data); })
+        .catch(function () {
+          document.getElementById("output").innerHTML = '<p class="empty">Error contacting OMDb.</p>';
+        });
+    }
+
+    function doSearch() {
+      searchMovie(document.getElementById("query").value);
+    }
+
+    var agentSDK = new lpTag.agentSDK();
+
+    agentSDK.init({
+      onData: function () {},
+      onError: function () {}
+    });
+
+    agentSDK.bind("visitorInfo.visitorName", function () {});
+
+    agentSDK.get("chatTranscript.lines", function (transcript) {
+      if (transcript && transcript.length) {
+        var last = transcript[transcript.length - 1];
+        if (last && last.text) { searchMovie(last.text); }
+      }
+    });
+
+    agentSDK.bind("chatTranscript.lines", function (transcript) {
+      if (transcript && transcript.length) {
+        for (var i = transcript.length - 1; i >= 0; i--) {
+          var line = transcript[i];
+          if (line && line.source === "visitor" && line.text) {
+            searchMovie(line.text);
+            break;
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
