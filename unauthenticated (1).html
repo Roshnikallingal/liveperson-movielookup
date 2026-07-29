@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>LP-Brand Shop</title>
+</head>
+<body>
+  <h1>LP-Brand Jewelry</h1>
+  <p>Welcome, guest! Browse our collection.</p>
+  <p>Cart total: $1730</p>
+
+  <script>
+    var lpTag = window.lpTag || {};
+    lpTag.sdes = lpTag.sdes || [];
+    lpTag.sdes.push({ type: "ctmrinfo", info: { socialId: document.title } });
+    lpTag.sdes.push({ type: "purchase", purchase: { total: 1730, currency: "USD" } });
+  </script>
+
+  <script src="//lptag.liveperson.net/tag/tag.js?site=16849521"></script>
+</body>
+</html>
