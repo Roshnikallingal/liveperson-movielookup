@@ -9,10 +9,26 @@
   <p>Cart total: $1730</p>
 
   <script>
-    window.lpTag = window.lpTag || {};
-    lpTag.sdes = lpTag.sdes || [];
-    lpTag.sdes.push({ type: "ctmrinfo", info: { socialId: document.title } });
-    lpTag.sdes.push({ type: "purchase", purchase: { total: 1730, currency: "USD" } });
+  window.lpTag = window.lpTag || {};
+  lpTag.sdes = lpTag.sdes || [];
+  lpTag.sdes.push({ type: "ctmrinfo", info: { socialId: document.title } });
+  lpTag.sdes.push({
+    type: "cart",
+    cart: {
+      total: 1730,
+      currency: "USD",
+      numItems: 1,
+      products: [{
+        product: {
+          name: "Diamond Ring",
+          category: "Jewelry",
+          sku: "LPB-001",
+          price: 1730
+        },
+        quantity: 1
+      }]
+    }
+  });
   </script>
 
   <script type="text/javascript">
