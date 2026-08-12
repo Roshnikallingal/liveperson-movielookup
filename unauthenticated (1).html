@@ -11,7 +11,14 @@
   <script>
   window.lpTag = window.lpTag || {};
   lpTag.sdes = lpTag.sdes || [];
-  lpTag.sdes.push({ type: "ctmrinfo", info: { socialId: document.title } });
+    lpTag.sdes.push({
+  type: "ctmrinfo",
+  info: {
+    socialId: document.title,
+    balance: 1730,
+    currency: "USD"
+  }
+});
   lpTag.sdes.push({
     type: "cart",
     cart: {
