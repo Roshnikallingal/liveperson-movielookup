@@ -1,18 +1,20 @@
+
+
 <!DOCTYPE html>
 <html>
 <head>
-  <title>LP-Brand Shop</title>
+  <title>LP-Brand Shop - My Account</title>
 </head>
 <body>
   <h1>LP-Brand Jewelry</h1>
-  <p>Welcome, guest! Browse our collection.</p>
-  <p>Cart total: $1730</p>
+  <p>Welcome back! Browse our collection.</p>
+  <p>Cart total: $2340</p>
 
-  <a href="authenticated.html" style="display:inline-block; padding:10px 20px;
-     background:#00527f; color:#fff; text-decoration:none; border-radius:4px;
-     font-family:Arial, sans-serif; margin-top:10px;">
-    Authenticate / Log in
-  </a>
+<a href="unauthenticated.html" style="display:inline-block; padding:10px 20px;
+   background:#777; color:#fff; text-decoration:none; border-radius:4px;
+   font-family:Arial, sans-serif; margin-top:10px;">
+  Log out
+</a>
 
   <script>
     window.lpTag = window.lpTag || {};
@@ -23,15 +25,15 @@
     lpTag.sdes.push({
       type: "cart",
       cart: {
-        total: 1730,
+        total: 2340,
         currency: "USD",
         numItems: 1,
         products: [{
           product: {
-            name: "Diamond Ring",
+            name: "Diamond Necklace",
             category: "Jewelry",
-            sku: "LPB-001",
-            price: 1730
+            sku: "LPB-002",
+            price: 2340
           },
           quantity: 1
         }]
